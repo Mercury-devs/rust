@@ -1,0 +1,49 @@
+
+Маски :
+
+Deployed
+Ragdoll
+Invisible
+AI
+Player Movement
+Vehicle Movement
+Game Trace
+Reflections
+World
+Player (Server)
+Trigger
+Player Model Rendering
+Physics Projectile
+Construction
+Construction Socket
+Terrain
+Transparent
+Clutter
+Debris
+Vehicle Large
+Prevent Movement
+Prevent Building
+Tree
+Impostor
+					
+
+					/// Проверка на коллайдер
+					
+					var layers = LayerMask.GetMask("Default", "Player (Server)", "Deployed"); // Задаем нужные слои
+                    Vector3 positionEntity = buildingBlock.transform.position; /// Берем нужную позицию
+
+                    Vector3 PositionCollider = new Vector3(positionEntity.x, positionEntity.y - 2f, positionEntity.z); // Получаем позицию для коллайдер(в данном случае нужно подспустить)
+
+                    Box(player, PositionCollider, 3, Color.red, 10); // Отрисовка позиции коллайдера
+                    Box(player, positionEntity, 3, Color.green, 10); // Отрисовка нашей стандартной позиции
+
+                   	//1 СОПОСБ 
+                    Collider[] hitColliders = Physics.OverlapSphere(PositionCollider, 2f, layers); // Задаем массив коллайдеров и записываем туда нужную позицию, радиус и маски
+                    for (int i = 0; i < hitColliders.Length; i++) // Цикл который бегает по массиву
+                    {
+                        Sphere(player, hitColliders[i].transform.position, 0.5f, Color.blue, 10); // Выделяем найденные коллайдеры сферой(просто для визуализации)
+                        /////Делаем чо хотим
+                    }
+
+                    // 2 Способ
+                    bool CheckCollider = Physics.CheckSphere(PositionCollider, 2f, layers); // Задаем проверку сферы,есть ли перекрывающие коллайдеры в ней или нет. Задаем позицию нужную, радиус и маски, если что-то перекрывает - будет true , если нет - false.
